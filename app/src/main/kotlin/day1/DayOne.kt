@@ -3,7 +3,8 @@ package day1
 class DayOne {
 
     fun calculateAmountMeasurementWindowsIncreased(input: IntArray): Int {
-        println("Calculating Measurement Windows.")
+        print("""
+            Calculating Measurement Windows.""")
 
         val measurementWindows = arrayListOf<MeasurementWindow>()
 
@@ -20,18 +21,21 @@ class DayOne {
 
 
     fun calculateIncreasedValues(input: IntArray): Int {
-        println("Calculating how many times the Depth increased.")
+        print("""
+            Calculating how many times the Depth increased.""")
+
         var count = 0
         var lastValue: Int? = input.first()
 
         input.forEach {
-            if(lastValue!! < it) {
+            if (lastValue!! < it) {
                 count++
             }
             lastValue = it
         }
 
-        println("The Depth increased $count times")
+        println("""
+            The Depth increased $count times""")
 
         return count
     }

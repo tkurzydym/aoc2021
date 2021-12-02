@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 
 class DayTwoTest : StringSpec({
 
-    "track depth and horizontal position" {
+    "track depth and horizontal position with aim" {
 
         val input: List<String> = listOf(
             "forward 5",
@@ -16,9 +16,10 @@ class DayTwoTest : StringSpec({
             "forward 2"
         )
 
-        val calculateDepthAndHPosMultiplied = DayTwo().calculateDepthAndHPosMultiplied(input)
+        val calculateDepthAndHPosMultiplied =
+            DayTwo().calculateDepthAndHPosMultiplied(input)
 
-        calculateDepthAndHPosMultiplied shouldBe 150
+        calculateDepthAndHPosMultiplied shouldBe 900
     }
 
 })

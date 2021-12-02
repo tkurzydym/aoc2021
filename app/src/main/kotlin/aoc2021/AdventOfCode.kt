@@ -51,7 +51,5 @@ fun readInput(resourceName: String): List<String> {
         .getResourceAsStream(resourceName)!!
         .bufferedReader()
         .readLines()
-
-    println("Reading Input File!")
     return readLines
 }
