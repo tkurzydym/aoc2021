@@ -43,7 +43,7 @@ class DayOne {
             idx++
         }
 
-        return calculateIncreasedValues(measurementWindows.map { it.first + it.second + it.third }.toIntArray())
+        return calculateIncreasedValues(measurementWindows.map { it.sum() }.toIntArray())
     }
 
 

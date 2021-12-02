@@ -14,6 +14,6 @@ class App {
 
 fun main() {
     println(App().greeting)
-    //DayOne().executeDayOnePartOne()
+    DayOne().executeDayOnePartOne()
     DayOne().executeDayOnePartTwo()
 }

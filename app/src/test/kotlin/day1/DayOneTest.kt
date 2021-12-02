@@ -10,7 +10,7 @@ class DayOneTest : StringSpec({
         ) shouldBe 7
     }
 
-    "measurement window increased count " {
+    "measurement window increased count" {
         DayOne().calculateAmountMeasurementWindowsIncreased(
             intArrayOf(199, 200, 208, 210, 200, 207, 240, 269, 260, 263)
         ) shouldBe 5
