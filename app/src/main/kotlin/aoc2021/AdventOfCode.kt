@@ -4,6 +4,7 @@
 package aoc2021
 
 import day1.DayOne
+import day2.DayTwo
 
 class App {
     val greeting: String
@@ -14,6 +15,43 @@ class App {
 
 fun main() {
     println(App().greeting)
-    DayOne().executeDayOnePartOne()
-    DayOne().executeDayOnePartTwo()
+
+    dayOne()
+    dayTwo()
+
+}
+
+fun dayTwo() {
+    println("Welcome to Day Two!")
+    DayTwo().calculateDepthAndHPosMultiplied(
+        readInput("daytwoinput.txt")
+    )
+}
+
+private fun dayOne() {
+    println("Welcome to Day One!")
+    DayOne().calculateIncreasedValues(
+        readInput("dayoneinput.txt")
+            .map { it.toInt() }
+            .toIntArray()
+    )
+
+    println("Welcome to Day One - Part 2!")
+    DayOne().calculateAmountMeasurementWindowsIncreased(
+        readInput("dayoneinput2.txt")
+            .map { it.toInt() }
+            .toIntArray()
+    )
+}
+
+
+fun readInput(resourceName: String): List<String> {
+    val readLines = App::class.java
+        .classLoader
+        .getResourceAsStream(resourceName)!!
+        .bufferedReader()
+        .readLines()
+
+    println("Reading Input File!")
+    return readLines
 }

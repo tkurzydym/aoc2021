@@ -2,34 +2,6 @@ package day1
 
 class DayOne {
 
-    fun executeDayOnePartOne() {
-        println("Welcome to Day One!")
-        val readLines = DayOne::class.java
-            .classLoader
-            .getResourceAsStream("dayoneinput.txt")!!
-            .bufferedReader()
-            .readLines()
-
-        println("Reading Input File!")
-        val input = readLines.map { it.toInt() }.toIntArray()
-
-        calculateIncreasedValues(input)
-    }
-
-    fun executeDayOnePartTwo() {
-        println("Welcome to Day One - Part 2!")
-        val readLines = DayOne::class.java
-            .classLoader
-            .getResourceAsStream("dayoneinput2.txt")!!
-            .bufferedReader()
-            .readLines()
-
-        println("Reading Input File!")
-        val input = readLines.map { it.toInt() }.toIntArray()
-
-        calculateAmountMeasurementWindowsIncreased(input)
-    }
-
     fun calculateAmountMeasurementWindowsIncreased(input: IntArray): Int {
         println("Calculating Measurement Windows.")
 
