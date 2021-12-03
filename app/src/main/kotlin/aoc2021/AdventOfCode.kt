@@ -5,6 +5,7 @@ package aoc2021
 
 import day1.DayOne
 import day2.DayTwo
+import day3.DayThree
 
 class App {
     val greeting: String
@@ -18,7 +19,14 @@ fun main() {
 
     dayOne()
     dayTwo()
+    dayThree()
+}
 
+fun dayThree() {
+    println("Welcome to Day Three!")
+    DayThree().calculatePowerConsumption(
+        readInput("daythreeinput.txt")
+    )
 }
 
 fun dayTwo() {
