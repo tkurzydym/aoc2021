@@ -24,8 +24,12 @@ fun main() {
 
 fun dayThree() {
     println("Welcome to Day Three!")
+    val input = readInput("daythreeinput.txt")
     DayThree().calculatePowerConsumption(
-        readInput("daythreeinput.txt")
+        input
+    )
+    DayThree().calculateLifeSupportRating(
+        input
     )
 }
 
