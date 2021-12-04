@@ -66,7 +66,7 @@ class DayFourTest: StringSpec({
 
 
 
-    "Calculate Bingo Score of Winning Board" {
+    "Calculate Bingo Score of Last Winning Board" {
 
         val drawNumbers = "7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1"
 
@@ -92,24 +92,6 @@ class DayFourTest: StringSpec({
             )
 
         val calculateBingoScore = DayFour().calculateBingoScore(drawNumbers, boardList)
-        calculateBingoScore shouldBe 4512
+        calculateBingoScore shouldBe 1924
     }
-
-    /*
-        5x5 grid
-
-        store last drawn number
-
-        as long as numbers in row or column for any board are not checked
-        -
-        for each draw-number
-
-        mark number on all boards (Store Indexes per Board which are marked)
-
-        set last number
-        -
-
-        sum of all UNMARKED numbers
-        multiply by last drawn number
-     */
 })

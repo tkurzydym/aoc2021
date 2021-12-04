@@ -9,34 +9,51 @@ class DayFour {
         println("We are playing Bingo now!")
 
         val drawNumberIterator = drawNumbers.iterator()
-        var lastDrawNumber: Int? = null
 
         val markedNumbersPerBoard: MutableMap<Int, MutableList<Pair<Int, Int>>> = mutableMapOf()
-        var winningBoard: Int? = null
+        var winningBoards: MutableList<Pair<Int, Int>> = mutableListOf()
 
-        while(winningBoard == null) {
-            val nextDrawNumber = if(drawNumberIterator.hasNext()) drawNumberIterator.next() else break
+        while(drawNumberIterator.hasNext()) {
+            val nextDrawNumber = drawNumberIterator.next()
 
-            markDrawnNumberOnBoards(retrieveBoardList, nextDrawNumber, markedNumbersPerBoard)
+            markDrawnNumberOnBoards(retrieveBoardList, nextDrawNumber, markedNumbersPerBoard, winningBoards)
 
-            winningBoard = getWinningBoard(markedNumbersPerBoard)
-
-            lastDrawNumber = nextDrawNumber
+            addWinningBoard(winningBoards, markedNumbersPerBoard, nextDrawNumber)
         }
 
-        val unmarkedNumbers =
-            getUnmarkedNumbers(retrieveBoardList[winningBoard!!], markedNumbersPerBoard[winningBoard]!!)
+        val firstWinningBoard = winningBoards.first()
+        val unmarkedNumbersOfFirstWinningBoard =
+            getUnmarkedNumbers(retrieveBoardList[firstWinningBoard.first], markedNumbersPerBoard[firstWinningBoard.first]!!)
+        val scoreOfFirstWinningBoard = unmarkedNumbersOfFirstWinningBoard.sum() * firstWinningBoard.second
 
+        val lastWinningBoard = winningBoards.last()
+        val unmarkedNumbersOfLastWinningBoard =
+            getUnmarkedNumbers(retrieveBoardList[lastWinningBoard.first], markedNumbersPerBoard[lastWinningBoard.first]!!)
+        val scoreOfLastWinningBoard = unmarkedNumbersOfLastWinningBoard.sum() * lastWinningBoard.second
 
-        val score = unmarkedNumbers.sum() * lastDrawNumber!!
         println(
             """
-            We found our Winning Board which is Number $winningBoard! Congratulations!
-            The last drawn Number was $lastDrawNumber with which the Board has won.
-            It results in a score of $score for Board $winningBoard!
+            We found our Winning Board which is Number ${firstWinningBoard.first + 1}! Congratulations!
+            The last drawn Number was ${firstWinningBoard.second} with which the Board has won.
+            It results in a score of $scoreOfFirstWinningBoard for Board ${firstWinningBoard.first + 1}!
+            
+            Sadly we also found our Board that wins last which is Number ${lastWinningBoard.first + 1}! Sorry for you!
+            The last drawn Number was ${lastWinningBoard.second} with which the Board has won.
+            It results in a score of $scoreOfLastWinningBoard for Board ${lastWinningBoard.first + 1}!
             """
         )
-        return score
+        return scoreOfLastWinningBoard
+    }
+
+    private fun addWinningBoard(
+        winningBoards: MutableList<Pair<Int, Int>>,
+        markedNumbersPerBoard: MutableMap<Int, MutableList<Pair<Int, Int>>>,
+        nextDrawNumber: Int) {
+
+        val boardsThatWonThisRound = getWinningBoards(winningBoards, markedNumbersPerBoard)
+        boardsThatWonThisRound.forEach {
+            winningBoards.add(Pair(it, nextDrawNumber))
+        }
     }
 
     fun retrieveBoardList(allBoards: List<String>): List<Array<IntArray>> {
@@ -62,23 +79,28 @@ class DayFour {
     private fun markDrawnNumberOnBoards(
         retrieveBoardList: List<Array<IntArray>>,
         nextDrawNumber: Int,
-        markedNumbersPerBoard: MutableMap<Int, MutableList<Pair<Int, Int>>>
+        markedNumbersPerBoard: MutableMap<Int, MutableList<Pair<Int, Int>>>,
+        winningBoards: MutableList<Pair<Int, Int>>
     ) {
-        retrieveBoardList.forEachIndexed { boardIndex, board ->
-            board.forEachIndexed { rowIdx, row ->
-                row.forEachIndexed { columnIdx, column ->
-                    if (column == nextDrawNumber) {
-                        var markedNumberList = markedNumbersPerBoard[boardIndex]
+        val boardKeysThatWon = winningBoards.map { it.first }
+        retrieveBoardList
+            .forEachIndexed { boardIndex, board ->
+                if(!boardKeysThatWon.contains(boardIndex)){
+                    board.forEachIndexed { rowIdx, row ->
+                        row.forEachIndexed { columnIdx, column ->
+                            if (column == nextDrawNumber) {
+                                var markedNumberList = markedNumbersPerBoard[boardIndex]
 
-                        if (markedNumberList == null) {
-                            markedNumberList = mutableListOf()
-                            markedNumbersPerBoard[boardIndex] = markedNumberList
+                                if (markedNumberList == null) {
+                                    markedNumberList = mutableListOf()
+                                    markedNumbersPerBoard[boardIndex] = markedNumberList
+                                }
+
+                                markedNumberList.add(Pair(rowIdx, columnIdx))
+                            }
                         }
-
-                        markedNumberList.add(Pair(rowIdx, columnIdx))
                     }
                 }
-            }
         }
     }
 
@@ -97,14 +119,23 @@ class DayFour {
         return nonMarkedNumbers
     }
 
-    private fun getWinningBoard(markedNumbersPerBoard: MutableMap<Int, MutableList<Pair<Int, Int>>>): Int? {
-        markedNumbersPerBoard.forEach{ (key, value) ->
-            val rowCount = value.groupingBy { it.first }.eachCount()
-            val columnCount = value.groupingBy { it.second }.eachCount()
+    private fun getWinningBoards(
+        boardsThatAlreadyWon: List<Pair<Int, Int>>,
+        markedNumbersPerBoard: MutableMap<Int, MutableList<Pair<Int, Int>>>
+    ): List<Int> {
+        val boardsThatWonThisRound: MutableList<Int> = mutableListOf()
+        val boardKeysThatWon = boardsThatAlreadyWon.map { it.first }
+        markedNumbersPerBoard
+            .filter { (key, _) -> !boardKeysThatWon.contains(key) }
+            .forEach { (key, value) ->
+                val rowCount = value.groupingBy { it.first }.eachCount()
+                val columnCount = value.groupingBy { it.second }.eachCount()
 
-            if(rowCount.containsValue(5) || columnCount.containsValue(5)) return key
-        }
+                if (rowCount.containsValue(5) || columnCount.containsValue(5)) {
+                    boardsThatWonThisRound.add(key)
+                }
+            }
 
-        return null
+        return boardsThatWonThisRound
     }
 }
