@@ -6,6 +6,7 @@ package aoc2021
 import day1.DayOne
 import day2.DayTwo
 import day3.DayThree
+import day4.DayFour
 
 class App {
     val greeting: String
@@ -20,6 +21,15 @@ fun main() {
     dayOne()
     dayTwo()
     dayThree()
+    dayFour()
+}
+
+fun dayFour() {
+    println("Welcome to Day Three!")
+    DayFour().calculateBingoScore(
+        readInput("dayfour-drawnumbers.txt")[0],
+        readInput("dayfour-boards.txt")
+    )
 }
 
 fun dayThree() {
