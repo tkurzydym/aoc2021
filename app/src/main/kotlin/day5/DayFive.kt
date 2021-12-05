@@ -42,6 +42,21 @@ class DayFive {
                         emptyMatrixWithZeros[x][it.first.second]++
                     }
                 }
+            } else {
+                val xRange: IntProgression =
+                    if(it.first.first < it.second.first) it.first.first ..it.second.first
+                    else it.first.first downTo it.second.first
+
+                val yRange: IntProgression =
+                    if(it.first.second < it.second.second) it.first.second ..it.second.second
+                    else it.first.second downTo it.second.second
+
+                val xIterator = xRange.iterator()
+                val yIterator = yRange.iterator()
+
+                while(yIterator.hasNext() && yIterator.hasNext()) {
+                    emptyMatrixWithZeros[xIterator.next()][yIterator.next()]++
+                }
             }
         }
 

@@ -22,7 +22,7 @@ class DayFiveTest : StringSpec({
 
         val calculateOverlappingPoints = DayFive().calculateOverlappingPoints(inputPoints)
 
-        calculateOverlappingPoints shouldBe 5
+        calculateOverlappingPoints shouldBe 12
     }
 
     "Parse Input List to PairList" {
