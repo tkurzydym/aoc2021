@@ -7,6 +7,7 @@ import day1.DayOne
 import day2.DayTwo
 import day3.DayThree
 import day4.DayFour
+import day5.DayFive
 
 class App {
     val greeting: String
@@ -22,6 +23,15 @@ fun main() {
     dayTwo()
     dayThree()
     dayFour()
+    dayFive()
+}
+
+fun dayFive() {
+    println("Welcome to Day Five")
+    val parseInputToLinePoints = DayFive().parseInputToLinePoints(
+        readInput("dayfiveinput.txt")
+    )
+    DayFive().calculateOverlappingPoints(parseInputToLinePoints)
 }
 
 fun dayFour() {
