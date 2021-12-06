@@ -5,7 +5,6 @@ import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 
 class DayFourTest: StringSpec({
-
     "convert board matrix to IntArray" {
         val testBoard = DayFour().convertStringBoardToIntArray(
             listOf(

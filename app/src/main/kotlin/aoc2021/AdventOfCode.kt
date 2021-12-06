@@ -8,6 +8,7 @@ import day2.DayTwo
 import day3.DayThree
 import day4.DayFour
 import day5.DayFive
+import day6.DaySix
 
 class App {
     val greeting: String
@@ -24,6 +25,14 @@ fun main() {
     dayThree()
     dayFour()
     dayFive()
+    daySix()
+}
+
+fun daySix() {
+    println("Welcome to Day Six!")
+    DaySix().countOfLanternfishesAfter80Days(
+        readInput("daysixinput.txt")[0].split(",").map { it.toInt() }
+    )
 }
 
 fun dayFive() {
