@@ -30,8 +30,9 @@ fun main() {
 
 fun daySix() {
     println("Welcome to Day Six!")
-    DaySix().countOfLanternfishesAfter80Days(
-        readInput("daysixinput.txt")[0].split(",").map { it.toInt() }
+    DaySix().countOfLanternfishesAfterDays(
+        readInput("daysixinput.txt")[0].split(",").map { it.toInt() },
+        80
     )
 }
 
