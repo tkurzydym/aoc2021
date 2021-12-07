@@ -32,7 +32,7 @@ fun daySix() {
     println("Welcome to Day Six!")
     DaySix().countOfLanternfishesAfterDays(
         readInput("daysixinput.txt")[0].split(",").map { it.toInt() },
-        80
+        256
     )
 }
 
