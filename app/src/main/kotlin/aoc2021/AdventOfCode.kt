@@ -9,6 +9,7 @@ import day3.DayThree
 import day4.DayFour
 import day5.DayFive
 import day6.DaySix
+import day7.DaySeven
 
 class App {
     val greeting: String
@@ -26,6 +27,14 @@ fun main() {
     dayFour()
     dayFive()
     daySix()
+    daySeven()
+}
+
+fun daySeven() {
+    println("Welcome to Day Seven!")
+    DaySeven().lowestFuelConsumption(
+        readInput("dayseven.txt")[0].split(",").map { it.toInt() }.toList()
+    )
 }
 
 fun daySix() {
