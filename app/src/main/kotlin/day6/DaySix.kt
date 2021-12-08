@@ -31,7 +31,7 @@ class DaySix {
 
         println(
             """
-            The Fish count in 80 Days will be ${array.sum()}
+            The Fish count in $days Days will be ${array.sum()}
             """
         )
 

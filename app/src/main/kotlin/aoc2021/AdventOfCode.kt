@@ -10,6 +10,7 @@ import day4.DayFour
 import day5.DayFive
 import day6.DaySix
 import day7.DaySeven
+import day8.DayEight
 
 class App {
     val greeting: String
@@ -28,6 +29,17 @@ fun main() {
     dayFive()
     daySix()
     daySeven()
+    dayEight()
+}
+
+fun dayEight() {
+    println("Welcome to Day Eight!")
+
+    DayEight().countUniqueDigitsInOutput(
+        readInput("dayeightinput.txt")
+            .map { it.split(" | ")[1] }
+            .toList()
+    )
 }
 
 fun daySeven() {
