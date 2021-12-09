@@ -2,7 +2,6 @@ package day9
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.Assertions.*
 
 class DayNineTest: StringSpec({
 
@@ -16,7 +15,7 @@ class DayNineTest: StringSpec({
             "9899965678",
         )
 
-        val sum = DayNine().findLowPointSum(input)
-        sum shouldBe 15
+        val sum = DayNine().findBasinsOnHeightMap(input)
+        sum shouldBe 1134
     }
 })

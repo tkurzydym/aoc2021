@@ -1,30 +1,101 @@
 package day9
 
 class DayNine {
-    fun findLowPointSum(input: List<String>): Int {
-        println("Lets find the low spots on the height map!")
-        val lowPoints = mutableListOf<Int>()
+    fun findBasinsOnHeightMap(input: List<String>): Int {
+        println("Lets find the low spots and basins on the height map!")
+        val lowPointsWithBasinCoordinates = mutableListOf<Pair<Int, Set<Pair<Int, Int>>>>()
 
-        input.forEachIndexed { inputIndex, it ->
-            it.forEachIndexed{index, char ->
-                val left = if(index - 1 >= 0) it[index - 1] else null
-                val right = if(index + 1 < it.length) it[index + 1] else null
-                val up = if(inputIndex - 1 >= 0) input[inputIndex - 1][index] else null
-                val down = if(inputIndex + 1 < input.size) input[inputIndex + 1][index] else null
+        input.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { columnIndex, column ->
+                val currentPositionValue = Character.getNumericValue(column)
+                val adjacentValues = getAdjacentIntValues(columnIndex, row, rowIndex, input)
 
-                val numList = mutableListOf(left, right, up, down).filterNotNull().map { Character.getNumericValue(it) }
-                val numericValue = Character.getNumericValue(char)
-                if(numericValue < numList.minOrNull()!!) lowPoints.add(numericValue)
+                if (isLowPoint(currentPositionValue, adjacentValues)) {
+                    val basin = mutableSetOf(Pair(rowIndex, columnIndex))
+                    basin += getAdjacentValuesIncludedInBasin(input, rowIndex, row, columnIndex)
+
+                    lowPointsWithBasinCoordinates.add(Pair(currentPositionValue, basin))
+                }
             }
         }
 
-        val riskLevelSummed = lowPoints.sum().plus(lowPoints.size)
+        val multipliedSizeOfThreeLargestBasins = lowPointsWithBasinCoordinates
+            .map { it.second.size }
+            .sortedDescending()
+            .subList(0, 3)
+            .reduce(Int::times)
 
         println(
             """
-            The low points are $lowPoints. 
-            We have a summed risk level of $riskLevelSummed
-            """)
-        return riskLevelSummed
+            The low Points with their basin size are $lowPointsWithBasinCoordinates. 
+            We have a multiplied size of the three largest basins: $multipliedSizeOfThreeLargestBasins
+            """
+        )
+
+        return multipliedSizeOfThreeLargestBasins
+    }
+
+    private fun isLowPoint(
+        currentPositionValue: Int,
+        adjacentValues: List<Int>
+    ) = currentPositionValue < adjacentValues.minOrNull()!!
+
+    private fun getAdjacentValuesIncludedInBasin(
+        input: List<String>,
+        rowIndex: Int,
+        currentRow: String,
+        columnIndex: Int
+    ): Set<Pair<Int, Int>> {
+        val adjacentValues = getAdjacentValues(columnIndex, currentRow, rowIndex, input)
+        val uniqueBasinCoordinates: MutableSet<Pair<Int, Int>> = mutableSetOf()
+
+        adjacentValues.forEach {
+            if (it.first != '9' && it.first > currentRow[columnIndex]) {
+                uniqueBasinCoordinates.add(it.second)
+                uniqueBasinCoordinates += getAdjacentValuesIncludedInBasin(
+                    input,
+                    it.second.first,
+                    input[it.second.first],
+                    it.second.second
+                )
+            }
+        }
+
+        return uniqueBasinCoordinates
+    }
+
+    private fun getAdjacentIntValues(
+        columnIndex: Int,
+        currentRow: String,
+        rowIndex: Int,
+        input: List<String>
+    ): List<Int> {
+        val adjacentValues = getAdjacentValues(columnIndex, currentRow, rowIndex, input)
+
+        return adjacentValues.map { it.first }.map { Character.getNumericValue(it) }
+    }
+
+    private fun getAdjacentValues(
+        columnIndex: Int,
+        currentRow: String,
+        rowIndex: Int,
+        input: List<String>
+    ): List<Pair<Char, Pair<Int, Int>>> {
+        val left =
+            if (columnIndex - 1 >= 0) Pair(currentRow[columnIndex - 1], Pair(rowIndex, columnIndex - 1)) else null
+        val right = if (columnIndex + 1 < currentRow.length) Pair(
+            currentRow[columnIndex + 1],
+            Pair(rowIndex, columnIndex + 1)
+        ) else null
+        val up =
+            if (rowIndex - 1 >= 0) Pair(input[rowIndex - 1][columnIndex], Pair(rowIndex - 1, columnIndex)) else null
+        val down = if (rowIndex + 1 < input.size) Pair(
+            input[rowIndex + 1][columnIndex],
+            Pair(rowIndex + 1, columnIndex)
+        ) else null
+
+        val numList: List<Pair<Char, Pair<Int, Int>>> = mutableListOf(left, right, up, down).filterNotNull()
+
+        return numList
     }
 }

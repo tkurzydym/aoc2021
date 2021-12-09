@@ -37,7 +37,7 @@ fun main() {
 fun dayNine() {
     println("Welcome to Day Nine!")
 
-    DayNine().findLowPointSum(
+    DayNine().findBasinsOnHeightMap(
         readInput("daynineinput.txt")
             .toList()
     )
