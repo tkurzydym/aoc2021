@@ -11,6 +11,7 @@ import day5.DayFive
 import day6.DaySix
 import day7.DaySeven
 import day8.DayEight
+import day9.DayNine
 
 class App {
     val greeting: String
@@ -30,6 +31,16 @@ fun main() {
     daySix()
     daySeven()
     dayEight()
+    dayNine()
+}
+
+fun dayNine() {
+    println("Welcome to Day Nine!")
+
+    DayNine().findLowPointSum(
+        readInput("daynineinput.txt")
+            .toList()
+    )
 }
 
 fun dayEight() {
